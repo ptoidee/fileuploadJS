@@ -1,0 +1,24 @@
+{
+  "name": "fileuploadjs",
+  "version": "1.0.0",
+  "description": "file uploading app that will allow the user to set an expiration time for the file to be deleted from the database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ptoidee/fileuploadJS.git"
+  },
+  "author": "Remigio Iringan III",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ptoidee/fileuploadJS/issues"
+  },
+  "homepage": "https://github.com/ptoidee/fileuploadJS#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "ejs-mate": "^3.0.0",
+    "express": "^4.17.1"
+  }
+}
