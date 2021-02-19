@@ -6,10 +6,13 @@ const express = require("express");
 const path = require("path");
 const ejsMate = require("ejs-mate");
 const mongoose = require("mongoose");
+const multer = require("multer");
+const { cloudinary, storage } = require("./cloudinary");
+const upload = multer({ storage });
 
 const File = require("./model");
 
-mongoose.connect("mongodb://localhost:27017/yelp-camp", {
+mongoose.connect("mongodb://localhost:27017/transfiler", {
 	useNewUrlParser: true,
 	useCreateIndex: true,
 	useUnifiedTopology: true,
@@ -30,13 +33,22 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-	res.send(process.env.TEST);
+	res.render("index");
 });
 
-app.post("/", (req, res) => {
+app.get("/upload", (req, res) => {
+	res.render("upload");
+});
+
+app.post("/upload", upload.array("filename"), async (req, res) => {
 	const file = new File(req.body);
-	file.save();
-	res.redirect("/");
+	file.file = req.files.map((f) => ({
+		url: f.path,
+		filename: f.filename,
+	}));
+	await file.save();
+	console.log(file);
+	res.redirect("/upload");
 });
 
 app.listen("3000", () => {
