@@ -1,0 +1,25 @@
+<% layout('boilerplate') -%>
+<div>
+	<h2>File ID:</h2>
+	<p><%= file._id %></p>
+	<h2>Uploaded By:</h2>
+	<p><%= file.uploader %></p>
+	<button onclick="download()">Download</button>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+<script>
+	function download() {
+		axios({
+			url: "<%- file.file[0].url %>",
+			method: "GET",
+			responseType: "blob",
+		}).then((response) => {
+			const url = window.URL.createObjectURL(new Blob([response.data]));
+			const link = document.createElement("a");
+			link.href = url;
+			link.setAttribute("download", "image.jpg");
+			document.body.appendChild(link);
+			link.click();
+		});
+	}
+</script>

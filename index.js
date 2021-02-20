@@ -47,8 +47,7 @@ app.post("/upload", upload.array("filename"), async (req, res) => {
 		filename: f.filename,
 	}));
 	await file.save();
-	console.log(file);
-	res.redirect("/upload");
+	res.render("details", { file });
 });
 
 app.listen("3000", () => {
