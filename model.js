@@ -16,7 +16,8 @@ const FileSchema = new Schema(
 	{
 		file: [ImageSchema],
 		uploader: String,
-		date: { type: Date, default: Date.now },
+		date: Number,
+		expire: Number,
 	},
 	opts
 );

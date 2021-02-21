@@ -11,7 +11,7 @@ const storage = new CloudinaryStorage({
 	cloudinary,
 	params: {
 		folder: "TransFiler",
-		allowedFormats: ["jpeg", "png", "jpg", "pdf", "docx"],
+		allowedFormats: ["jpeg", "png", "jpg"],
 	},
 });
 

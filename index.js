@@ -32,12 +32,28 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 
+const checkExpire = async (req, res, next) => {
+	const id = req.params.id;
+	const file = await File.findById(id);
+	if (file) {
+		if (Date.now() > file.date + file.expire * 1000) {
+			//Expired
+			await File.findByIdAndRemove(id);
+		}
+	}
+	next();
+};
+
 app.get("/", (req, res) => {
 	res.render("index");
 });
 
 app.get("/upload", (req, res) => {
 	res.render("upload");
+});
+app.get("/detail/:id", checkExpire, async (req, res) => {
+	const file = await File.findById(req.params.id);
+	res.render("details", { file });
 });
 
 app.post("/upload", upload.array("filename"), async (req, res) => {
@@ -46,8 +62,15 @@ app.post("/upload", upload.array("filename"), async (req, res) => {
 		url: f.path,
 		filename: f.filename,
 	}));
+	file.date = Date.now();
 	await file.save();
-	res.render("details", { file });
+	res.redirect(`/detail/${file._id}`);
+});
+app.get("/retrieve", (req, res) => {
+	res.render("retrieve");
+});
+app.post("/retrieve", (req, res) => {
+	res.redirect(`/detail/${req.body.file}`);
 });
 
 app.listen("3000", () => {
