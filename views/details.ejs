@@ -1,18 +1,42 @@
 <% layout('boilerplate') -%> <% if(file){ %>
 <div class="container text-center">
-	<h1><span class="border-bottom border-3 border-info">Details</span></h1>
-	<h3>Retrieve File ID:</h3>
-	<p id="file_id" style="display: inline"><%= file._id %></p>
-	<button class="button button-info" onclick="copy()">Copy ID</button>
-	<h3>Uploaded By:</h3>
-	<p><%= file.uploader %></p>
-	<h3>Expires in:</h3>
-	<p>
-		<%= (new Date(parseInt(file.date + file.expire*60*1000))).toString() %>
-	</p>
-	<button onclick="download()">Download</button>
-	<div>
-		<a href="/">Back to Home</a>
+	<div class="row">
+		<div class="col-6 offset-3">
+			<div class="mb-5">
+				<h1>
+					<span class="border-bottom border-3 border-info"
+						>Details</span
+					>
+				</h1>
+			</div>
+			<div class="mb-5 text-start">
+				<div class="mb-3">
+					<h3>Retrieve File ID:</h3>
+					<p id="file_id" style="display: inline"><%= file._id %></p>
+					<button class="btn btn-secondary btn-sm" onclick="copy()">
+						Copy ID
+					</button>
+				</div>
+				<div class="mb-3">
+					<h3>Uploaded By:</h3>
+					<p><%= file.uploader %></p>
+				</div>
+				<div class="mb-3">
+					<h3>Upload Date:</h3>
+					<p><%= (new Date(file.date)).toString() %></p>
+				</div>
+				<div class="mb-3">
+					<h3>Expires in:</h3>
+					<p><%= (new Date(file.expire)).toString() %></p>
+				</div>
+				<button class="btn btn-primary" onclick="download()">
+					Download
+				</button>
+			</div>
+			<div>
+				<a href="/">Back to Home</a>
+			</div>
+		</div>
 	</div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>

@@ -35,9 +35,8 @@ app.use(express.urlencoded({ extended: true }));
 const checkExpire = async (req, res, next) => {
 	const id = req.params.id;
 	const file = await File.findById(id);
-	console.log(Date.now() > file.date + file.expire * 1000 * 60);
 	if (file) {
-		if (Date.now() > file.date + file.expire * 1000 * 60) {
+		if (Date.now() > file.expire) {
 			//Expired
 
 			await File.findByIdAndRemove(file._id);
@@ -66,6 +65,7 @@ app.post("/upload", upload.array("filename"), async (req, res) => {
 		filename: f.filename,
 	}));
 	file.date = Date.now();
+	file.expire = file.date + file.expire * 60 * 1000;
 	await file.save();
 	res.redirect(`/detail/${file._id}`);
 });
