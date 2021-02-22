@@ -35,10 +35,13 @@ app.use(express.urlencoded({ extended: true }));
 const checkExpire = async (req, res, next) => {
 	const id = req.params.id;
 	const file = await File.findById(id);
+	console.log(Date.now() > file.date + file.expire * 1000 * 60);
 	if (file) {
-		if (Date.now() > file.date + file.expire * 1000) {
+		if (Date.now() > file.date + file.expire * 1000 * 60) {
 			//Expired
-			await File.findByIdAndRemove(id);
+
+			await File.findByIdAndRemove(file._id);
+			await cloudinary.uploader.destroy(file.file[0].filename);
 		}
 	}
 	next();

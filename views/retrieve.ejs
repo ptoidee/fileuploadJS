@@ -1,7 +1,27 @@
 <% layout('boilerplate') -%>
-<form action="/retrieve" method="POST">
-	<label for="file">Enter Retrieve File ID:</label>
-	<input type="text" id="file" name="file" />
-	<button>Retrieve</button>
-</form>
-<a href="/">Back to Home</a>
+<div class="container text-center">
+	<h1 class="mb-3">
+		<span class="border-bottom border-3 border-info"
+			>Retrieve Your Files</span
+		>
+	</h1>
+	<form class="mb-3" action="/retrieve" method="POST">
+		<div class="row">
+			<div class="col-8 offset-2">
+				<div class="mb-3">
+					<label for="file" class="form-label"
+						>Enter Retrieve File ID:</label
+					>
+					<input
+						class="form-control"
+						type="text"
+						id="file"
+						name="file"
+					/>
+				</div>
+				<button>Retrieve</button>
+			</div>
+		</div>
+	</form>
+	<a href="/">Back to Home</a>
+</div>
