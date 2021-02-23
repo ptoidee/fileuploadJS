@@ -8,6 +8,8 @@ const ejsMate = require("ejs-mate");
 const mongoose = require("mongoose");
 const multer = require("multer");
 const { cloudinary, storage } = require("./cloudinary");
+const catchAsync = require("./utils/catchAsync");
+const ExpressError = require("./utils/ExpressError");
 const upload = multer({ storage });
 
 const File = require("./model");
@@ -74,6 +76,17 @@ app.get("/retrieve", (req, res) => {
 });
 app.post("/retrieve", (req, res) => {
 	res.redirect(`/detail/${req.body.file}`);
+});
+app.all("*", (req, res, next) => {
+	next(new ExpressError("Page Not Found", 404));
+});
+app.use((err, req, res, next) => {
+	const { statusCode = 500, message = "Something went wrong" } = err;
+	res.status(statusCode).render("error", {
+		statusCode,
+		message,
+		page: "Error",
+	});
 });
 
 app.listen("3000", () => {

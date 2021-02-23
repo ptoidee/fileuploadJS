@@ -29,9 +29,25 @@
 					<h3>Expires in:</h3>
 					<p><%= (new Date(file.expire)).toString() %></p>
 				</div>
-				<button class="btn btn-primary" onclick="download()">
-					Download
-				</button>
+				<table class="table">
+					<tr>
+						<th>File Name</th>
+						<th>Download</th>
+					</tr>
+					<% for(let i of file.file) { %>
+					<tr>
+						<td><%= i.filename.substr(11,i.filename.length) %></td>
+						<td>
+							<button
+								class="btn btn-primary"
+								onclick="download('<%- i.url %>')"
+							>
+								Download
+							</button>
+						</td>
+					</tr>
+					<% } %>
+				</table>
 			</div>
 			<div>
 				<a href="/">Back to Home</a>
@@ -41,10 +57,10 @@
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
 <script>
-	const url = "<%- file.file[0].url %>";
-	const fileLoc = "TransFiler/";
-	const filename = url.slice(url.indexOf(fileLoc) + fileLoc.length);
-	function download() {
+	function download(url1) {
+		const url = url1;
+		const fileLoc = "TransFiler/";
+		const filename = url.slice(url.indexOf(fileLoc) + fileLoc.length);
 		axios({
 			url: url,
 			method: "GET",
